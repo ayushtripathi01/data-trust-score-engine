@@ -31,3 +31,13 @@ pip install -r requirements.txt
 streamlit run dashboard/app.py
 ```
 ## ->> Preview
+
+### Upload Screen
+![Upload](file_upload.png)
+
+### Column Selection
+![Select Column](column_selection.png)
+
+### Metrics and Charts
+![Metrics](metrics.png)
+![Charts](error_chart.png)
