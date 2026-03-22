@@ -29,3 +29,5 @@ Most projects analyze data. This project evaluates whether data is reliable enou
 ```bash
 pip install -r requirements.txt
 streamlit run dashboard/app.py
+```
+## ->> Preview
