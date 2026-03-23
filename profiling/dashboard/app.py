@@ -97,7 +97,13 @@ st.markdown("## Data Trust Score Engine")
 uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
 
 if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+ try:
+    df = pd.read_csv(uploaded_file, encoding='utf-8')
+ except:
+    try:
+        df = pd.read_csv(uploaded_file, encoding='latin-1')
+    except:
+        df = pd.read_csv(uploaded_file, encoding='ISO-8859-1')
 
     st.subheader("Select Required Columns")
 
