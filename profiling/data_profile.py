@@ -10,9 +10,9 @@ print("Dataset Loaded Successfully")
 print("Shape:", df.shape)
 
 critical_columns = ['sales', 'order_id', 'order_date']
-# -----------------------------
+
 # STRONG DATA ISSUES (FINAL)
-# -----------------------------
+
 
 # Large missing values
 df.loc[0:3000, 'sales'] = None
@@ -27,13 +27,8 @@ df.loc[6000:9000, 'order_id'] = None
 df['order_date'] = pd.to_datetime(df['order_date'], errors='coerce')
 df.loc[9000:12000, 'order_date'] = pd.Timestamp('2099-01-01')
 
-# -----------------------------
-# COMPLETENESS CALCULATION
-# -----------------------------
-
-# -----------------------------
 # COMPLETENESS (CRITICAL ONLY)
-# -----------------------------
+
 
 missing_cells = df[critical_columns].isnull().sum().sum()
 total_cells = len(df) * len(critical_columns)
@@ -46,9 +41,9 @@ print("Missing Cells:", missing_cells)
 
 print(f"\nCompleteness Score: {completeness_score:.2f}%")
 
-# -----------------------------
+
 # ACCURACY CHECKS
-# -----------------------------
+
 
 total_checks = 0
 failed_checks = 0
@@ -74,9 +69,9 @@ if 'order_date' in df.columns:
     failed_checks += (df['order_date'] > pd.Timestamp.today()).sum()
     print("Future Dates Count:", (df['order_date'] > pd.Timestamp.today()).sum())
 
-# -----------------------------
+
 # ACCURACY SCORE
-# -----------------------------
+
 
 if total_checks == 0:
     accuracy_score = 0
@@ -85,17 +80,15 @@ else:
 
 print(f"\nAccuracy Score: {accuracy_score:.2f}%")
 
-# -----------------------------
+
 # FINAL TRUST SCORE
-# -----------------------------
 
 trust_score = (completeness_score * 0.5) + (accuracy_score * 0.5)
 
 print(f"\nFinal Trust Score: {trust_score:.2f}%")
 
-# -----------------------------
+
 # RECOMMENDATION ENGINE
-# -----------------------------
 
 print("\n--- RECOMMENDATION ---")
 

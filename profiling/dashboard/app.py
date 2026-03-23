@@ -50,14 +50,14 @@ def generate_pdf(completeness, accuracy, trust):
 completeness = None
 accuracy = None
 trust = None
-# -----------------------------
+
 # PAGE CONFIG
-# -----------------------------
+
 st.set_page_config(page_title="Data Trust Engine", layout="wide")
 
-# -----------------------------
+
 # CUSTOM CSS (CLEAN GOOGLE STYLE)
-# -----------------------------
+
 st.markdown("""
 <style>
 .block-container {
@@ -88,9 +88,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# -----------------------------
+
 # TITLE
-# -----------------------------
+
 st.markdown("## Data Trust Score Engine")
 
 
@@ -100,9 +100,9 @@ if uploaded_file is None:
     st.info("Please upload a CSV file to proceed")
     st.stop()
 
-# -----------------------------
+
 # READ FILE
-# -----------------------------
+
 try:
     df = pd.read_csv(uploaded_file, encoding='utf-8')
 except:
@@ -111,22 +111,22 @@ except:
     except:
         df = pd.read_csv(uploaded_file, encoding='ISO-8859-1')
 
-# -----------------------------
+
 # COLUMN SELECTION (ALWAYS RUNS AFTER UPLOAD)
-# -----------------------------
+
 st.subheader("Select Required Columns")
 
 sales_col = st.selectbox("Select Sales Column", df.columns)
 id_col = st.selectbox("Select Order ID Column", df.columns)
 date_col = st.selectbox("Select Date Column", df.columns)
 
-# -----------------------------
+
 # CALCULATE
-# -----------------------------
+
 completeness, accuracy, trust = calculate_trust(df, sales_col, id_col, date_col)
-# -----------------------------
+
 # METRICS (TOP CARDS)
-# -----------------------------
+
 if completeness is not None:
     col1, col2, col3 = st.columns(3)
 
@@ -175,14 +175,14 @@ INSIGHTS:
         mime="text/plain"
     )
 
-# -----------------------------
+
 # TWO COLUMN LAYOUT
-# -----------------------------
+
 left, right = st.columns(2)
 
-# -----------------------------
+
 # LEFT SIDE: SCORE CHART
-# -----------------------------
+
 with left:
 
     if trust is not None:
@@ -196,21 +196,19 @@ with left:
 
         st.bar_chart(score_df.set_index("Metric"))
 
-# -----------------------------
+
 # RIGHT SIDE: STATUS + INSIGHTS
-# -----------------------------
+
 with right:
 
     if trust is not None:
 
         st.markdown("### System Status")
 
-   # -----------------------------
+
 # SYSTEM STATUS (SAFE)
-# -----------------------------
-# -----------------------------
-# SYSTEM STATUS (SAFE)
-# -----------------------------
+
+
 if trust is not None:
 
     if trust >= 85:
@@ -239,9 +237,9 @@ else:
 
 st.divider()
 
-# -----------------------------
+
 # ERROR SUMMARY
-# -----------------------------
+
 if trust is not None:
 
     st.markdown("### Error Summary")
@@ -255,7 +253,6 @@ if trust is not None:
 
 st.divider()
 
-# -----------------------------
+
 # FOOTER
-# -----------------------------
 st.caption("Data Trust Engine | Data Intelligence System for AI Readiness")

@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas import errors
 
 def calculate_trust(df, sales_col, id_col, date_col):
 
@@ -21,9 +22,15 @@ def calculate_trust(df, sales_col, id_col, date_col):
     # -----------------------------
     errors = 0
 
-    errors += (df[sales_col] < 0).sum()
+    # Safe numeric check
+    errors += ((df[sales_col] < 0).fillna(False)).sum()
+
+    # Missing ID
     errors += df[id_col].isnull().sum()
-    errors += (df[date_col] > pd.Timestamp.today()).sum()
+
+    # Safe date check
+    valid_dates = df[date_col].notnull()
+    errors += ((df.loc[valid_dates, date_col] > pd.Timestamp.today())).sum()
 
     accuracy = (1 - (errors / len(df))) * 100
 
