@@ -30,7 +30,13 @@ def calculate_trust(df, sales_col, id_col, date_col):
 
     # Safe date check
     valid_dates = df[date_col].notnull()
-    errors += ((df.loc[valid_dates, date_col] > pd.Timestamp.today())).sum()
+    # Safe future date check
+    today = pd.Timestamp.today()
+
+    valid_dates = df[date_col].notna()
+    safe_dates = df.loc[valid_dates, date_col]
+
+    errors += (safe_dates > today).sum()
 
     accuracy = (1 - (errors / len(df))) * 100
 
