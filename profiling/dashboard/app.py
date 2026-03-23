@@ -96,27 +96,34 @@ st.markdown("## Data Trust Score Engine")
 
 uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
 
-if uploaded_file is not None:
- try:
+if uploaded_file is None:
+    st.info("Please upload a CSV file to proceed")
+    st.stop()
+
+# -----------------------------
+# READ FILE
+# -----------------------------
+try:
     df = pd.read_csv(uploaded_file, encoding='utf-8')
- except:
+except:
     try:
         df = pd.read_csv(uploaded_file, encoding='latin-1')
     except:
         df = pd.read_csv(uploaded_file, encoding='ISO-8859-1')
 
-    st.subheader("Select Required Columns")
+# -----------------------------
+# COLUMN SELECTION (ALWAYS RUNS AFTER UPLOAD)
+# -----------------------------
+st.subheader("Select Required Columns")
 
-    sales_col = st.selectbox("Select Sales Column", df.columns)
-    id_col = st.selectbox("Select Order ID Column", df.columns)
-    date_col = st.selectbox("Select Date Column", df.columns)
+sales_col = st.selectbox("Select Sales Column", df.columns)
+id_col = st.selectbox("Select Order ID Column", df.columns)
+date_col = st.selectbox("Select Date Column", df.columns)
 
-    if st.button("Calculate Trust Score"):
-     completeness, accuracy, trust = calculate_trust(df, sales_col, id_col, date_col)
-
-else:
-    st.warning("Please upload a dataset to begin")
-    st.stop()
+# -----------------------------
+# CALCULATE
+# -----------------------------
+completeness, accuracy, trust = calculate_trust(df, sales_col, id_col, date_col)
 # -----------------------------
 # METRICS (TOP CARDS)
 # -----------------------------
